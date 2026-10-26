@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7fb">
+  <title>Quick Survey</title>
+  <style>
+    :root { --ink:#222638; --muted:#697084; --line:#e2e5ee; --accent:#6658d3; --soft:#f1efff; --pink:#d94f8c; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:22px; background:linear-gradient(135deg,#f7f8fc,#f6f2ff); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    .card { width:min(100%,480px); background:#fff; border:1px solid #ececf3; border-radius:22px; padding:clamp(22px,5vw,36px); box-shadow:0 18px 55px rgba(36,34,80,.09); }
+    .eyebrow { color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:12px; }
+    h1 { font-size:clamp(26px,6vw,34px); margin:0 0 10px; letter-spacing:-.04em; }
+    p { color:var(--muted); line-height:1.55; margin:0 0 22px; }
+    label { display:block; font-weight:700; font-size:14px; margin:17px 0 8px; }
+    input, select, textarea { display:block; width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:11px; font:inherit; color:var(--ink); background:#fff; outline:none; }
+    input:focus, select:focus, textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px #6658d31c; }
+    textarea { resize:vertical; min-height:100px; }
+    .consent { display:flex; gap:10px; align-items:flex-start; margin:18px 0 5px; color:var(--muted); font-size:12px; line-height:1.45; }
+    .consent input { width:17px; height:17px; flex:0 0 auto; margin:1px 0 0; }
+    button { border:0; border-radius:11px; padding:13px 18px; font:inherit; font-weight:700; cursor:pointer; transition:transform .15s, opacity .15s; }
+    button:active { transform:scale(.98); }
+    .primary { width:100%; margin-top:18px; color:#fff; background:var(--accent); }
+    .secondary { color:var(--ink); background:#f0f1f6; }
+    .choices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:18px 0; }
+    .choice { text-align:left; background:#fafaff; color:var(--ink); border:1px solid var(--line); padding:13px; }
+    .choice.selected { border-color:var(--pink); background:#fff0f6; box-shadow:0 0 0 2px #d94f8c12; }
+    .button-row { display:flex; gap:10px; margin-top:18px; }
+    .button-row button { flex:1; }
+    .hidden { display:none !important; }
+    .notice { padding:11px 12px; border-radius:10px; background:#f6f5ff; color:#554b9f; font-size:13px; margin-top:14px; }
+    .error { background:#fff1f0; color:#9f2d25; }
+    .success { text-align:center; padding:12px 0 4px; }
+    .success .symbol { font-size:42px; margin-bottom:12px; }
+    .invite { text-align:center; }
+    .invite h1 { color:#a52e66; }
+    .invite .primary { background:var(--pink); }
+    .no-wrap { position:relative; min-height:58px; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; margin-top:16px; }
+    #noBtn { background:#fff0f6; color:#a52e66; border:1px solid #f1c4d8; }
+    .tiny { font-size:11px; margin-top:16px; margin-bottom:0; }
+    @media (max-width:380px) { .choices { grid-template-columns:1fr; } .card { border-radius:17px; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section id="survey">
+      <div class="eyebrow">Quick survey</div>
+      <h1>Please Fill the Survey</h1>
+      <p>Please enter the details below to continue.</p>
+      <form id="surveyForm">
+        <label for="name">Your Name</label>
+        <input id="name" name="name" autocomplete="name" maxlength="80" placeholder="Enter your name" required>
+        <label for="dob">Date of Birth</label>
+        <input id="dob" name="dob" type="date" required>
+        <button class="primary" type="submit">Next →</button>
+      </form>
+    </section>
+
+    <section id="invite" class="hidden invite">
+      <div class="eyebrow">One little question</div>
+      <h1>Hey Saniya! 💗</h1>
+      <p>I have a little question for you...</p>
+      <h2 style="font-size:23px;line-height:1.35;margin:20px 0 8px">Should we go on a virtual date together? 😊</h2>
+      <div class="no-wrap">
+        <button class="primary" id="yesBtn" style="width:auto;margin:0">Yes 💕</button>
+        <button id="noBtn" type="button">No 🙈</button>
+      </div>
+    </section>
+
+    <section id="destination" class="hidden">
+      <div class="eyebrow">Step 2 of 4</div>
+      <h1>Pick our destination 🌍</h1>
+      <p>If we could go anywhere for our virtual date, where would you choose?</p>
+      <div class="choices" id="destinationChoices">
+        <button class="choice" type="button">🇰🇷 South Korea</button>
+        <button class="choice" type="button">🇨🇭 Switzerland</button>
+        <button class="choice" type="button">🇫🇷 France</button>
+        <button class="choice" type="button">🇯🇵 Japan</button>
+        <button class="choice" type="button">🇮🇩 Indonesia</button>
+        <button class="choice" type="button">🌊 In the sea</button>
+        <button class="choice" type="button">🚀 In space</button>
+        <button class="choice" type="button">🏜️ In a desert</button>
+        <button class="choice" type="button">🌲 In a forest</button>
+        <button class="choice" type="button">✨ Under the stars</button>
+      </div>
+      <label for="customDestination">Or write your own place</label>
+      <input id="customDestination" maxlength="120" placeholder="My dream place is...">
+      <div class="button-row"><button class="secondary" type="button" data-back="invite">Back</button><button class="primary" type="button" id="destinationNext" style="margin:0">Next →</button></div>
+      <div id="destinationStatus" class="notice hidden" role="status"></div>
+    </section>
+
+    <section id="food" class="hidden">
+      <div class="eyebrow">Step 3 of 4</div>
+      <h1>What should we eat? 🍓</h1>
+      <p>Pick something delicious for our virtual date.</p>
+      <div class="choices" id="foodChoices">
+        <button class="choice" type="button">🍕 Pizza</button>
+        <button class="choice" type="button">🍝 Pasta</button>
+        <button class="choice" type="button">🍔 Burger</button>
+        <button class="choice" type="button">🍣 Sushi</button>
+        <button class="choice" type="button">🌮 Tacos</button>
+        <button class="choice" type="button">🍜 Ramen</button>
+        <button class="choice" type="button">🍰 Cake</button>
+        <button class="choice" type="button">🍦 Ice cream</button>
+        <button class="choice" type="button">🍫 Chocolate</button>
+        <button class="choice" type="button">🍓 Strawberries</button>
+        <button class="choice" type="button">🍛 Biryani</button>
+        <button class="choice" type="button">🥟 Momos</button>
+      </div>
+      <label for="customFood">Or write your favourite food</label>
+      <input id="customFood" maxlength="120" placeholder="My favourite food is...">
+      <div class="button-row"><button class="secondary" type="button" data-back="destination">Back</button><button class="primary" type="button" id="foodNext" style="margin:0">Next →</button></div>
+      <div id="foodStatus" class="notice hidden" role="status"></div>
+    </section>
+
+    <section id="message" class="hidden">
+      <div class="eyebrow">Step 4 of 4</div>
+      <h1>Anything you want to say? 💌</h1>
+      <p>Leave a message for me, if you'd like. This is optional.</p>
+      <label for="personalMessage">Your message</label>
+      <textarea id="personalMessage" maxlength="1000" placeholder="Write your message here..."></textarea>
+      <div class="button-row"><button class="secondary" type="button" data-back="food">Back</button><button class="primary" type="button" id="submitBtn" style="margin:0">Send my answers 💌</button></div>
+      <div id="finalStatus" class="notice hidden" role="status"></div>
+    </section>
+
+    <section id="thankyou" class="hidden success">
+      <div class="symbol">✓</div>
+      <h1>Thank you for your response!</h1>
+      <p>Your response has been recorded.</p>
+    </section>
+  </main>
+
+  <!--
+    EMAIL SETUP REQUIRED:
+    This is a static website. It cannot send email until you configure an email provider.
+    Recommended: EmailJS. Create a service and template, then replace the three placeholders
+    in the CONFIG section below. Never put your Gmail password or app password in this file.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // CONFIG: Replace these values after setting up EmailJS.
+    const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";
+    const EMAILJS_SERVICE_ID = "YOUR_EMAILJS_SERVICE_ID";
+    const EMAILJS_TEMPLATE_ID = "YOUR_EMAILJS_TEMPLATE_ID";
+    const RECIPIENT_EMAIL = "mjugnu690@gmail.com";
+
+    const emailConfigured = ![EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID]
+      .some(v => v.startsWith("YOUR_"));
+
+    const data = { name:"", dob:"", destination:"", food:"", message:"" };
+    const sections = ["survey","invite","destination","food","message","thankyou"];
+    function show(id) {
+      sections.forEach(s => document.getElementById(s).classList.toggle("hidden", s !== id));
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+    function status(id, text, isError=false) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.classList.remove("hidden");
+      el.classList.toggle("error", isError);
+    }
+    function selectedChoice(containerId) {
+      const el = document.querySelector("#" + containerId + " .choice.selected");
+      return el ? el.textContent.trim() : "";
+    }
+    function setupChoices(containerId) {
+      const container = document.getElementById(containerId);
+      container.querySelectorAll(".choice").forEach(btn => {
+        btn.addEventListener("click", () => {
+          container.querySelectorAll(".choice").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+        });
+      });
+    }
+    setupChoices("destinationChoices");
+    setupChoices("foodChoices");
+
+    async function sendEmail(extra={}) {
+      if (!emailConfigured || !window.emailjs) {
+        throw new Error("Email is not configured yet. The site owner must add EmailJS settings before sharing this link.");
+      }
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      const templateParams = {
+        to_email: RECIPIENT_EMAIL,
+        recipient_email: RECIPIENT_EMAIL,
+        name: data.name,
+        dob: data.dob,
+        destination: data.destination || "Not provided",
+        food: data.food || "Not provided",
+        message: data.message || "No message",
+        response_type: extra.response_type || "Survey response"
+      };
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    }
+
+    document.getElementById("surveyForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      data.name = document.getElementById("name").value.trim();
+      data.dob = document.getElementById("dob").value;
+      if (!data.name || !data.dob) return;
+      // Email delivery runs silently only if the owner has configured EmailJS.
+      if (emailConfigured && window.emailjs) {
+        try { await sendEmail({response_type:"Initial survey"}); }
+        catch (err) { console.error("Initial email failed:", err); }
+      }
+      if (data.name.toLocaleLowerCase() === "saniya") show("invite");
+      else show("thankyou");
+    });
+
+    document.getElementById("yesBtn").addEventListener("click", () => show("destination"));
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("click", () => {
+      const wrap = noBtn.parentElement;
+      const maxX = Math.max(0, wrap.clientWidth - noBtn.offsetWidth);
+      const x = Math.random() * maxX - maxX/2;
+      const y = (Math.random() * 70) - 35;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    noBtn.addEventListener("pointerenter", () => {
+      if (window.matchMedia("(hover:hover)").matches) {
+        const wrap = noBtn.parentElement;
+        const maxX = Math.max(0, wrap.clientWidth - noBtn.offsetWidth);
+        noBtn.style.transform = `translate(${Math.random()*maxX-maxX/2}px, ${(Math.random()*50)-25}px)`;
+      }
+    });
+    document.getElementById("destinationNext").addEventListener("click", () => {
+      data.destination = document.getElementById("customDestination").value.trim() || selectedChoice("destinationChoices");
+      if (!data.destination) return status("destinationStatus","Please choose or write a destination.",true);
+      show("food");
+    });
+    document.getElementById("foodNext").addEventListener("click", () => {
+      data.food = document.getElementById("customFood").value.trim() || selectedChoice("foodChoices");
+      if (!data.food) return status("foodStatus","Please choose or write your favourite food.",true);
+      show("message");
+    });
+    document.querySelectorAll("[data-back]").forEach(btn => btn.addEventListener("click", () => show(btn.dataset.back)));
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      data.message = document.getElementById("personalMessage").value.trim();
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      try {
+        await sendEmail({response_type:"Completed virtual date survey"});
+        show("thankyou");
+      } catch (err) {
+        status("finalStatus", err.message || "Could not send your answers. Please try again.", true);
+      } finally { btn.disabled = false; }
+    });
+    // Email setup status is intentionally not displayed to visitors.
+  </script>
+</body>
+</html>
