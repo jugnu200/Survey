@@ -204,9 +204,9 @@
         try { await sendEmail({response_type:"Initial survey"}); }
         catch (err) { console.error("Initial email failed:", err); }
       }
-      if (data.name.toLocaleLowerCase() === "saniya") show("invite");
-      else show("thankyou");
-    });
+      if (data.name.toLowerCase().includes("saniya")) show("invite");
+         else show("thankyou");
+      });
 
     document.getElementById("yesBtn").addEventListener("click", () => show("destination"));
     const noBtn = document.getElementById("noBtn");
