@@ -199,14 +199,20 @@
       data.name = document.getElementById("name").value.trim();
       data.dob = document.getElementById("dob").value;
       if (!data.name || !data.dob) return;
-      // Email delivery runs silently only if the owner has configured EmailJS.
-      if (emailConfigured && window.emailjs) {
-        try { await sendEmail({response_type:"Initial survey"}); }
-        catch (err) { console.error("Initial email failed:", err); }
-      }
-      if (data.name.toLowerCase().includes("saniya")) show("invite");
-         else show("thankyou");
-      });
+      // Open the next page immediately
+    if (data.name.toLowerCase().includes("saniya")) {
+    show("invite");
+    } else {
+    show("thankyou");
+    }
+
+    // Send email in the background
+    if (emailConfigured && window.emailjs) {
+    sendEmail({response_type:"Initial survey"})
+        .catch(err => console.error("Initial email failed:", err));
+    }
+    });
+
 
     document.getElementById("yesBtn").addEventListener("click", () => show("destination"));
     const noBtn = document.getElementById("noBtn");
